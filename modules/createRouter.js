@@ -212,10 +212,50 @@ function createRouter(options) {
        * Returns an absolute URL path created from the given route
        * name, URL parameters, and query.
        */
+      // makePath: function (to, params, query) {
+      //   var path;
+      //   if (PathUtils.isAbsolute(to)) {
+      //     path = to;
+      //   } else {
+      //     var route = (to instanceof Route) ? to : Router.namedRoutes[to];
+
+      //     invariant(
+      //       route instanceof Route,
+      //       'Cannot find a route named "%s"',
+      //       to
+      //     );
+
+      //     path = route.path;
+      //   }
+
+      //   return PathUtils.withQuery(PathUtils.injectParams(path, params), query);
+      // },
+
       makePath: function (to, params, query) {
         var path;
+        var existingQuery;
+        var temp;
+        var parts;
+
         if (PathUtils.isAbsolute(to)) {
           path = to;
+
+          // Get actual URL
+          if (typeof window !== 'undefined' && window.location && window.location.href) {
+            temp = window.location.href.split('?');
+            if (temp.length > 1) {
+              temp = temp[1].split('#').shift().split('&');
+              existingQuery = {};
+              temp.map(function(kvp) {
+                parts = kvp.split('=');
+                if (parts.length === 2) {
+                  existingQuery[parts[0]] = parts[1];
+                }
+              });
+
+            }
+          }
+
         } else {
           var route = (to instanceof Route) ? to : Router.namedRoutes[to];
 
@@ -228,7 +268,7 @@ function createRouter(options) {
           path = route.path;
         }
 
-        return PathUtils.withQuery(PathUtils.injectParams(path, params), query);
+        return PathUtils.withQuery(PathUtils.injectParams(path, params), query, existingQuery);
       },
 
       /**

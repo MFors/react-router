@@ -174,8 +174,8 @@ var PathUtils = {
    * Returns a version of the given path with the parameters in the given
    * query merged into the query string.
    */
-  withQuery: function (path, query) {
-    var existingQuery = PathUtils.extractQuery(path);
+  withQuery: function (path, query, _existingQuery) {
+    var existingQuery = _existingQuery || PathUtils.extractQuery(path);
 
     if (existingQuery)
       query = query ? assign(existingQuery, query) : existingQuery;
