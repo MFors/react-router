@@ -75,7 +75,7 @@ class Link extends React.Component {
 
   render() {
     var props = assign({}, this.props, {
-      href: this.getHref(),
+      href: this.getHref() + (this.props.anchor ? '#' + this.props.anchor : ''),
       className: this.getClassName(),
       onClick: this.handleClick.bind(this)
     });
@@ -101,6 +101,7 @@ Link.propTypes = {
   to: PropTypes.oneOfType([ PropTypes.string, PropTypes.route ]).isRequired,
   params: PropTypes.object,
   query: PropTypes.object,
+  anchor: PropTypes.string,
   activeStyle: PropTypes.object,
   onClick: PropTypes.func
 };

@@ -14,7 +14,7 @@ describe('A Link', function () {
     it('knows how to make its href', function () {
       var LinkHandler = React.createClass({
         render: function () {
-          return <Link to="foo" params={{bar: 'baz'}} query={{qux: 'quux'}}>Link</Link>;
+          return <Link to="foo" params={{bar: 'baz'}} query={{qux: 'quux'}} anchor='lux'>Link</Link>;
         }
       });
 
@@ -29,7 +29,7 @@ describe('A Link', function () {
       Router.run(routes, location, function (Handler) {
         React.render(<Handler/>, div, function () {
           var a = div.querySelector('a');
-          expect(a.getAttribute('href')).toEqual('/foo/baz?qux=quux');
+          expect(a.getAttribute('href')).toEqual('/foo/baz?qux=quux#lux');
         });
       });
     });
